@@ -1,0 +1,307 @@
+/* Estilo general */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+ul {
+    list-style: none;
+    padding-inline-start: 0px;
+}
+
+/* Encabezado */
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+/* Contenido principal */
+main {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+    flex-wrap: wrap;
+    padding: 2rem;
+}
+
+/* Tarjeta de juego */
+.juego {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1.5rem;
+    margin: 1.5rem;
+    width: 300px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    align-items: center; 
+    position: relative; 
+}
+
+/* Imagen en la tarjeta */
+.juego img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Título en la tarjeta */
+.juego h2 {
+    font-size: 1.8rem; 
+    margin: 1rem 0;
+}
+
+/* Descripción en la tarjeta */
+.juego p {
+    margin: 1rem 0;
+    font-size: 1.2rem; 
+}
+
+/* Precio en la tarjeta */
+.precio {
+    font-size: 1.4rem;
+    color: #ff6600; 
+    font-weight: bold; 
+}
+
+/* Botón de compra */
+.comprar-btn, .carrito-btn {
+    display: block;
+    background-color: #ff6600;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
+}
+
+/* Estilo al pasar el cursor sobre el botón de compra */
+.comprar-btn:hover, .carrito-btn:hover {
+    background-color: #e45d00;
+    transform: scale(1.05);
+}
+
+/* Feedback al usuario para que sepa que agregó su producto al carrito */
+.feedback {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Carrito de compras emergente */
+.carrito {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    max-width: 400px; /* Limita el ancho del carrito */
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.carrito h3,
+.carrito h4 {
+    background-color: #ff6600;
+    color: #fff;
+    padding: 10px;
+    margin: 0;
+}
+
+.carrito h4 {
+    margin-top: 15px;
+}
+
+.carrito-lista {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.carrito-lista li {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.carrito-lista li div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.carrito-lista p {
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+    padding: 0px 10px;
+}
+
+.carrito-lista input {
+    width: 40px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.carrito-impuestos {
+    text-align: left;
+    margin-top: 10px; 
+}
+
+.carrito-impuestos li {
+    font-weight: bold;
+}
+
+.carrito-total {
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: right;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.carrito-precio-final {
+    font-size: 1.6rem;
+    color: #e45d00;
+    text-align: right;
+    margin-top: 10px;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+/* Estilo para botones en el carrito */
+.comprar-carrito-btn, .vaciar-carrito-btn, .eliminar-btn {
+    display: inline-block;
+    background-color: #ff6600;
+    color: #fff;
+    border: none;
+    padding: 0.3rem 0.8rem;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
+}
+
+/* Estilo al pasar el cursor sobre los botones en el carrito */
+.comprar-carrito-btn:hover, .vaciar-carrito-btn:hover, .eliminar-btn:hover {
+    background-color: #e45d00;
+    transform: scale(1.05);
+}
+
+.eliminar-btn {
+    background-color: #ff3333;
+    padding: 0.3rem 0.6rem;
+    margin-right: 3px;
+    font-size: 0.9rem;
+}
+
+.comprar-carrito-btn {
+    float: right; 
+}
+
+.vaciar-carrito-btn {
+    float: left; 
+}
+
+.cerrar-carrito-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #333; /* Cambia el color de fondo */
+    border: none;
+    color: #fff; /* Cambia el color del icono */
+    font-size: 1.6rem;
+    cursor: pointer;
+    width: 30px; /* Establece el ancho y alto iguales para hacer un círculo */
+    height: 30px; /* Establece el ancho y alto iguales para hacer un círculo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%; /* Hace que el botón sea un círculo */
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.cerrar-carrito-btn:hover {
+    background-color: #ff6600; /* Cambia el color de fondo al pasar el cursor */
+    color: #fff; /* Mantén el color del icono */
+}
+
+.carrito-botones {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.carrito-vacio, .carrito-vaciado-exitoso, .carrito-ya-vacio {
+    display: none;
+    text-align: center;
+    margin: 20px 0;
+    font-weight: bold;
+    color: #999;
+}
+
+/* Mensaje de confirmación de la compra */
+.mensaje-compra {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 9999;
+}
+
+/* Pie de página */
+footer {
+    text-align: center;
+    padding: 1rem 0;
+    background-color: #333;
+    color: #fff;
+}
+
+/* Estilos para diseño responsive */
+@media (max-width: 768px) {
+    .juego {
+        width: 100%; 
+    }
+
+    /* Estilos específicos para el carrito en dispositivos móviles */
+    .carrito {
+        right: 0;
+    }
+}
