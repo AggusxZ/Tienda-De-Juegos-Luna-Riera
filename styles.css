@@ -9,11 +9,6 @@ body {
     min-height: 100vh;
 }
 
-ul {
-    list-style: none;
-    padding-inline-start: 0px;
-}
-
 /* Encabezado */
 header {
     background-color: #333;
@@ -26,9 +21,9 @@ header {
 main {
     flex-grow: 1;
     display: flex;
-    justify-content: center;
-    align-items: flex-start; 
-    flex-wrap: wrap;
+    justify-content: space-between; 
+    align-items: flex-start;
+    flex-wrap: wrap; 
     padding: 2rem;
 }
 
@@ -36,47 +31,56 @@ main {
 .juego {
     background-color: #fff;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 1.5rem;
-    margin: 1.5rem;
-    width: 300px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 1rem;
+    width: calc(33.33% - 2rem); 
+    max-height: 600px; 
+    min-height: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; 
-    align-items: center; 
-    position: relative; 
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.juego:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Imagen en la tarjeta */
 .juego img {
-    max-width: 100%;
-    height: auto;
+    max-width: 100%; 
+    max-height: 200px; 
+    object-fit: contain;
+    margin-bottom: 1rem;
 }
 
 /* Título en la tarjeta */
 .juego h2 {
-    font-size: 1.8rem; 
+    font-size: 1.6rem; 
     margin: 1rem 0;
 }
 
 /* Descripción en la tarjeta */
 .juego p {
     margin: 1rem 0;
-    font-size: 1.2rem; 
+    font-size: 1rem; 
 }
 
 /* Precio en la tarjeta */
 .precio {
-    font-size: 1.4rem;
-    color: #ff6600; 
-    font-weight: bold; 
+    font-size: 1.3rem;
+    color: #ff6600;
+    font-weight: bold;
 }
 
 /* Botón de compra */
 .comprar-btn, .carrito-btn {
-    display: block;
+    display: inline-block;
     background-color: #ff6600;
     color: #fff;
     border: none;
@@ -84,7 +88,7 @@ main {
     margin-top: 10px;
     cursor: pointer;
     border-radius: 5px;
-    font-size: 1.2rem;
+    font-size: 1rem;
     transition: background-color 0.3s ease-in-out, transform 0.2s;
 }
 
@@ -119,7 +123,7 @@ main {
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 9999;
-    max-width: 400px; /* Limita el ancho del carrito */
+    max-width: 400px; 
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
@@ -140,41 +144,57 @@ main {
     padding: 0;
     margin: 10px 0;
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    flex-direction: column;
 }
 
-.carrito-lista li {
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin: 10px 0;
+.carrito-item {
     display: flex;
-    align-items: center;
-}
-
-.carrito-lista li div{
-    display: flex;
-    align-items: center;
     justify-content: space-between;
-    margin: 10px 0;
+    align-items: center;
+    border-top: 1px solid #ddd;
+    padding: 10px 0;
 }
 
-.carrito-lista p {
-    flex-grow: 1;
-    text-align: center;
+.carrito-item-info {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%; 
+}
+
+.carrito-item-nombre-precio {
     margin: 0;
-    padding: 0px 10px;
+    padding: 0;
+    font-weight: bold;
+    margin-right: 10px;
 }
 
-.carrito-lista input {
+.carrito-item-cantidad {
     width: 40px;
     text-align: center;
-    margin-right: 10px;
+    padding: 5px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.carrito-item-cantidad:hover,
+.carrito-item-cantidad:focus {
+    border-color: #ff6600;
+}
+
+.carrito-item .eliminar-btn {
+    background-color: #ff3333;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.9rem;
+    margin-right: 3px;
 }
 
 .carrito-impuestos {
     text-align: left;
-    margin-top: 10px; 
+    margin-top: 10px;
 }
 
 .carrito-impuestos li {
@@ -218,42 +238,34 @@ main {
     transform: scale(1.05);
 }
 
-.eliminar-btn {
-    background-color: #ff3333;
-    padding: 0.3rem 0.6rem;
-    margin-right: 3px;
-    font-size: 0.9rem;
-}
-
 .comprar-carrito-btn {
-    float: right; 
+    float: right;
 }
 
 .vaciar-carrito-btn {
-    float: left; 
+    float: left;
 }
 
 .cerrar-carrito-btn {
     position: absolute;
     top: 5px;
     right: 5px;
-    background-color: #333; /* Cambia el color de fondo */
+    background-color: #333;
     border: none;
-    color: #fff; /* Cambia el color del icono */
+    color: #fff;
     font-size: 1.6rem;
     cursor: pointer;
-    width: 30px; /* Establece el ancho y alto iguales para hacer un círculo */
-    height: 30px; /* Establece el ancho y alto iguales para hacer un círculo */
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%; /* Hace que el botón sea un círculo */
-    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    border-radius: 50%;
+    transition: background-color 0.3s ease-in-out;
 }
 
 .cerrar-carrito-btn:hover {
-    background-color: #ff6600; /* Cambia el color de fondo al pasar el cursor */
-    color: #fff; /* Mantén el color del icono */
+    background-color: #ff6600;
 }
 
 .carrito-botones {
@@ -303,5 +315,27 @@ footer {
     /* Estilos específicos para el carrito en dispositivos móviles */
     .carrito {
         right: 0;
+    }
+}
+
+/* Estilo para dispositivos con pantalla grande */
+@media (min-width: 1200px) {
+    main {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        padding: 2rem;
+        margin: 0 auto; 
+        max-width: 1200px; 
+    }
+    
+    .juego {
+        margin: 1rem; 
+    }
+    
+    .carrito {
+        bottom: auto;
+        top: 20px; 
     }
 }

@@ -1,13 +1,3 @@
-// Lista de juegos en venta
-const juegos = [
-    {
-        titulo: "Broforce",
-        descripcion: "Únete a la acción explosiva en este juego de plataformas.",
-        precio: 1050,
-        imagen: "img/broforce.jpg"
-    },  
-];
-
 // Elementos del DOM
 const mainElement = document.querySelector('main');
 const carritoLista = document.querySelector('.carrito-lista');
@@ -19,88 +9,109 @@ const carritoImpuestos = document.querySelector('.carrito-impuestos');
 const carritoPrecioFinal = document.querySelector('.carrito-precio-final');
 
 // Variables de estado
-const carrito = [];
+let juegos = [];
+let carrito = [];
 let vaciarDespuesDeVaciar = true;
-let ultimoBotonPresionado = '';
 
-// Crear elementos de Juegos
-juegos.forEach(juego => {
-    const juegoDiv = document.createElement('div');
-    juegoDiv.classList.add('juego');
+// Función para cargar los juegos desde el archivo JSON
+async function cargarJuegos() {
+    try {
+        const response = await fetch('juegos.json');
+        juegos = await response.json();
+        crearCartasDeJuegos();
+    } catch (error) {
+        console.error('Error al cargar los juegos desde el archivo JSON:', error);
+    }
+}
 
-    // Crear elementos para mostrar información del juego
-    const imagen = document.createElement('img');
-    imagen.src = juego.imagen;
-    juegoDiv.appendChild(imagen);
+cargarJuegos();
 
-    const titulo = document.createElement('h2');
-    titulo.textContent = juego.titulo;
-    juegoDiv.appendChild(titulo);
+// Función para crear las cartas de juegos
+function crearCartasDeJuegos() {
+    juegos.forEach(juego => {
+        const juegoDiv = document.createElement('div');
+        juegoDiv.classList.add('juego');
 
-    const descripcion = document.createElement('p');
-    descripcion.textContent = juego.descripcion;
-    juegoDiv.appendChild(descripcion);
+        const imagen = document.createElement('img');
+        imagen.src = juego.imagen;
+        juegoDiv.appendChild(imagen);
 
-    const precio = document.createElement('p');
-    precio.textContent = `Precio: $${juego.precio.toFixed(2)}`;
-    juegoDiv.appendChild(precio);
+        const separador = document.createElement('hr');
+        separador.classList.add('juego-imagen-titulo-separador');
+        juegoDiv.appendChild(separador);
 
-    // Botón para agregar al carrito
-    const comprarButton = document.createElement('button');
-    comprarButton.textContent = 'Agregar al Carrito';
-    comprarButton.classList.add('comprar-btn');
-    comprarButton.addEventListener('click', () => {
-        agregarAlCarrito(juego);
-        mostrarCarrito();
-        actualizarCarrito();
+        const titulo = document.createElement('h2');
+        titulo.textContent = juego.titulo;
+        juegoDiv.appendChild(titulo);
+
+        const descripcion = document.createElement('p');
+        descripcion.textContent = juego.descripcion;
+        juegoDiv.appendChild(descripcion);
+
+        const precio = document.createElement('p');
+        precio.textContent = `Precio: $${juego.precio.toFixed(2)}`;
+        precio.classList.add('precio');
+        juegoDiv.appendChild(precio);
+
+        // Botón para agregar al carrito
+        const comprarButton = document.createElement('button');
+        comprarButton.textContent = 'Agregar al Carrito';
+        comprarButton.classList.add('comprar-btn');
+        comprarButton.addEventListener('click', () => {
+            agregarAlCarrito(juego);
+            mostrarCarrito();
+            actualizarCarrito();
+        });
+        juegoDiv.appendChild(comprarButton);
+
+        mainElement.appendChild(juegoDiv);
     });
-    juegoDiv.appendChild(comprarButton);
-
-    mainElement.appendChild(juegoDiv);
-});
+}
 
 // Función para agregar un juego al carrito
 function agregarAlCarrito(juego) {
     const juegoEnCarrito = carrito.find(item => item.juego.titulo === juego.titulo);
 
-    juegoEnCarrito ? juegoEnCarrito.cantidad++ : carrito.push({ juego: juego, cantidad: 1 });
+    if (juegoEnCarrito) {
+        juegoEnCarrito.cantidad++;
+    } else {
+        carrito.push({ juego: juego, cantidad: 1 });
+    }
 
     guardarCarritoEnLocalStorage();
     mostrarCarrito();
     actualizarCarrito();
+    mostrarFeedback(`${juego.titulo} se agregó al carrito`);
+}
 
-    // Función para mostrar feedback en el DOM
-    const feedback = document.createElement('p');
-    feedback.textContent = `${juego.titulo} se agregó al carrito`;
-    feedback.classList.add('feedback');
-    mainElement.appendChild(feedback);
-
-    setTimeout(() => {
-        feedback.style.opacity = '1';
-        setTimeout(() => {
-            feedback.style.opacity = '0';
-            setTimeout(() => {
-                mainElement.removeChild(feedback);
-            }, 300);
-        }, 2000);
-    }, 10); 
+/* Función para mostrar feedback */
+function mostrarFeedback(mensaje) {
+    Swal.fire({
+        text: mensaje,
+        icon: 'success',
+        timer: 1000,
+        showConfirmButton: false
+    });
 }
 
 // Función para mostrar el carrito
 function mostrarCarrito() {
-    carritoContainer.style.transform = 'translateX(0)';
-    carritoContainer.style.opacity = '1';
+    if (carrito.length > 0) {
+        carritoContainer.style.transform = 'translateX(0)';
+        carritoContainer.style.opacity = '1';
 
-    vaciarDespuesDeCompra = true;
+        vaciarDespuesDeCompra = true;
+    }
 }
 
 // Función para mostrar el mensaje de carrito vacío
 function mostrarCarritoVacio() {
-    const carritoVacio = document.querySelector('.carrito-vacio');
-    carritoVacio.style.display = 'block';
-    setTimeout(() => {
-        carritoVacio.style.display = 'none';
-    }, 3000); 
+    Swal.fire({
+        text: 'Por favor, agrega un producto al carrito',
+        icon: 'warning',
+        timer: 2000,
+        showConfirmButton: false
+    });
 }
 
 // Función para actualizar el contenido del carrito
@@ -109,7 +120,7 @@ function actualizarCarrito() {
     let subtotal = 0;
     let totalImpuestos = 0;
 
-    carrito.forEach(item => {
+    carrito.forEach((item, index) => {
         const carritoItem = document.createElement('li');
         const precioUnitario = item.juego.precio;
         const subtotalItem = precioUnitario * item.cantidad;
@@ -118,7 +129,15 @@ function actualizarCarrito() {
         const carritoItemDiv = document.createElement('div');
         carritoItemDiv.classList.add('carrito-item');
 
+        const productoInfo = document.createElement('p');
+        productoInfo.classList.add('carrito-item-nombre-precio');
+        productoInfo.textContent = `${item.juego.titulo} - $${subtotalItem.toFixed(2)}`;
+
+        const infoDiv = document.createElement('div');
+        infoDiv.classList.add('carrito-item-info');
+
         const cantidadInput = document.createElement('input');
+        cantidadInput.classList.add('carrito-item-cantidad');
         cantidadInput.type = 'number';
         cantidadInput.value = item.cantidad;
         cantidadInput.min = 1;
@@ -126,12 +145,6 @@ function actualizarCarrito() {
             ajustarCantidad(item, cantidadInput.value);
             actualizarCarrito();
         });
-
-        const productoInfo = document.createElement('p');
-        productoInfo.textContent = `${item.juego.titulo} - $${subtotalItem.toFixed(2)}`;
-
-        carritoItemDiv.appendChild(productoInfo);
-        carritoItemDiv.appendChild(cantidadInput);
 
         const eliminarButton = document.createElement('button');
         eliminarButton.textContent = 'Eliminar';
@@ -141,6 +154,10 @@ function actualizarCarrito() {
             actualizarCarrito();
         });
 
+        infoDiv.appendChild(productoInfo);
+        infoDiv.appendChild(cantidadInput);
+
+        carritoItemDiv.appendChild(infoDiv);
         carritoItemDiv.appendChild(eliminarButton);
 
         carritoItem.appendChild(carritoItemDiv);
@@ -225,11 +242,12 @@ function realizarCompra() {
 
 // Función para mostrar el mensaje de compra exitosa
 function mostrarMensajeCompra() {
-    const mensajeCompra = document.querySelector('.mensaje-compra');
-    mensajeCompra.style.opacity = '1';
-    setTimeout(() => {
-        mensajeCompra.style.opacity = '0';
-    }, 3000); 
+    Swal.fire({
+        text: 'Compra realizada con éxito',
+        icon: 'success',
+        timer: 1500,
+        showConfirmButton: false
+    });
 }
 
 // Función para vaciar el carrito
@@ -244,23 +262,25 @@ function vaciarCarrito(desdeBotonCompra = false) {
 }
 
 // Función para mostrar el mensaje de carrito vaciado exitosamente
-function mostrarCarritoVaciadoExitoso(desdeBotonCompra) { 
-    if (!desdeBotonCompra) { 
-        const carritoVaciadoExitoso = document.querySelector('.carrito-vaciado-exitoso');
-        carritoVaciadoExitoso.style.display = 'block';
-        setTimeout(() => {
-            carritoVaciadoExitoso.style.display = 'none';
-        }, 3000);
+function mostrarCarritoVaciadoExitoso(desdeBotonCompra) {
+    if (!desdeBotonCompra) {
+        Swal.fire({
+            text: 'Carrito vaciado exitosamente',
+            icon: 'success',
+            timer: 1500,
+            showConfirmButton: false
+        });
     }
 }
 
 // Función para mostrar el mensaje de carrito ya vacío
 function mostrarCarritoYaVacio() {
-    const carritoYaVacio = document.querySelector('.carrito-ya-vacio');
-    carritoYaVacio.style.display = 'block';
-    setTimeout(() => {
-        carritoYaVacio.style.display = 'none';
-    }, 3000); 
+    Swal.fire({
+        text: 'El carrito ya está vacío',
+        icon: 'info',
+        timer: 2000,
+        showConfirmButton: false
+    });
 }
 
 // Función para guardar el carrito en el almacenamiento local
@@ -274,12 +294,23 @@ function guardarCarritoEnLocalStorage() {
 }
 
 // Función para cargar el carrito desde el almacenamiento local
-function cargarCarritoDesdeLocalStorage() {
-    const carritoGuardado = localStorage.getItem('carrito');
-    if (carritoGuardado) {
-        carrito.push(...JSON.parse(carritoGuardado));
-        mostrarCarrito();
-        actualizarCarrito();
+async function cargarCarritoDesdeLocalStorage() {
+    try {
+        const carritoGuardado = localStorage.getItem('carrito');
+
+        if (carritoGuardado) {
+            const carritoGuardadoArray = JSON.parse(carritoGuardado);
+            if (carritoGuardadoArray.length > 0) {
+                carrito.push(...carritoGuardadoArray);
+            }
+        }
+
+        if (carrito.length > 0) {
+            mostrarCarrito();
+            await actualizarCarrito(); 
+        }
+    } catch (error) {
+        console.error(error.message);
     }
 }
 

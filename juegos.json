@@ -1,0 +1,38 @@
+[
+    {
+        "titulo": "Broforce",
+        "descripcion": "Únete a la acción explosiva en este juego de plataformas.",
+        "precio": 1050,
+        "imagen": "img/broforce.jpg"
+    },
+    {
+        "titulo": "Dead By Deadlight",
+        "descripcion": "Sobrevive a un asesino despiadado o caza a tus víctimas como asesino en este juego multijugador asimétrico.",
+        "precio": 1299,
+        "imagen": "img/dead_by_daylight.jpg"
+    },
+    {
+        "titulo": "Vampire Survivors",
+        "descripcion": "Explora un mundo oscuro y peligroso como un superviviente en busca de la verdad detrás de los vampiros que acechan la noche.",
+        "precio": 1999,
+        "imagen": "img/vampire_survivors.jpg"
+    },
+    {
+        "titulo": "Cult of The Lamb",
+        "descripcion": "Conviértete en un adorable cordero y lidera tu propio culto en este juego de acción y aventuras.",
+        "precio": 1799,
+        "imagen": "img/cult_of_the_lamb.jpg"
+    },
+    {
+        "titulo": "Barotrauma",
+        "descripcion": "Explora las profundidades oceánicas en este juego de simulación cooperativo donde la supervivencia es clave.",
+        "precio": 1499,
+        "imagen": "img/barotrauma.jpg"
+    },
+    {
+        "titulo": "Forza Horizon 5",
+        "descripcion": "Disfruta de la emoción de las carreras y la exploración en un mundo abierto impresionante en este juego de conducción.",
+        "precio": 2499,
+        "imagen": "img/forza_horizon_5.jpg"
+    }
+]
